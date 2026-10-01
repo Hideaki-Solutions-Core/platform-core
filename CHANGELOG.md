@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Deprecated the `messaging/event-envelope` and `auth/auth-provider` schemas in favour of the ECP capabilities
+  `messaging.event-envelope@0.1.0` and `security.authn@0.1.0` (ECP `contracts-v0.3.0`). Both files are now deprecation
+  stubs that carry the legacy `$id` and `$ref` the ECP schema (strict consumers must register `x-superseded-by` as an
+  annotation keyword and resolve the ECP `$id`). `validate-contracts` validates stub shape strictly (ECP-host `$ref`
+  matching `x-superseded-by`) and fails examples or fixtures that target a stub; `npm run test:contract-stubs` covers
+  it, including compiling the stubs under strict Ajv. No example or fixture in this repository targeted them.
 - Added the reusable `capability-drift` workflow and local scorecard analyzer for the capability-reuse ratchet.
 
 All notable changes to this project will be documented in this file.

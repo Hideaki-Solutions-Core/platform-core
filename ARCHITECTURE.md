@@ -73,7 +73,16 @@ Contracts in this repository are defined using:
 - **AsyncAPI fragments** for messaging contracts
 - **Markdown specifications** for behavioral contracts
 
-Each module's `contracts/` folder contains the source of truth for that module's interface.
+Each module's `contracts/` folder contains the source of truth for that module's interface, with one exception:
+contracts that moved to the Enterprise Capability Platform (ECP) are owned there (ECP Decision 0006). Their schema files
+here are deprecation stubs (`$ref` to the ECP schema id, `deprecated: true`, `x-superseded-by: <capability>@<version>`)
+that carry the legacy ids and delegate to the ECP schema. A strict consumer must register `x-superseded-by` as an
+annotation keyword (ECP Decision 0006 section 5 lists it as an extension) and make the ECP `$id` resolvable, or the stub
+will not compile. Today `messaging/contracts/event-envelope.schema.json` (ECP
+`messaging.event-envelope`) and `auth/contracts/auth-provider.schema.json` (ECP `security.authn`) are stubs.
+`scripts/validate-contracts.mjs` validates a stub's shape strictly (the `$ref` must be an ECP schema id whose capability
+matches `x-superseded-by`) and does not resolve it; the ECP conformance vectors validate the content, and examples or
+negative fixtures that target a stub fail validation and belong in those vectors.
 
 ## How Products Consume platform-core
 
