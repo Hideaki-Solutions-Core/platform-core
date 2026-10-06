@@ -16,7 +16,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: npm
+          cache: ${{ runner.environment == 'github-hosted' && 'npm' || '' }}
 
       - name: Install pinned contract validator
         run: npm ci
