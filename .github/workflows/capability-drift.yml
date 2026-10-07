@@ -17,10 +17,17 @@ on:
         description: Source stack.
         required: true
         type: string
+      runs-on:
+        description: >-
+          Runner label for the job. Default keeps GitHub-hosted (ubuntu-24.04) so existing
+          callers are unaffected; callers on the org runner scale set pass hideaki-k3s.
+        required: false
+        default: ubuntu-24.04
+        type: string
 
 jobs:
   capability-drift:
-    runs-on: ubuntu-24.04
+    runs-on: ${{ inputs.runs-on }}
     steps:
       - uses: actions/checkout@v4
       - name: Checkout capability-drift runner
