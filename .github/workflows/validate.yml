@@ -8,7 +8,7 @@ on:
 
 jobs:
   validate:
-    runs-on: hideaki-k3s
+    runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v4
 
